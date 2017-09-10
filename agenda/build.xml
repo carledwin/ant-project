@@ -102,7 +102,7 @@
 
 	<target name="empacotar-war" depends="compilar">
 		<war destfile="${build.dir}/agenda.war" webxml="${web-inf.dir}/web.xml">
-			<classes dir="${build.dir}/${classes.dir}"></classes>
+			<classes dir="${build.dir}/${classes.dir}" />
 			<!-- o eclipse compila por padrão WEB-INF/classes, iremos mudar o destino destino -->
 			<fileset dir="WebContent">
 				<exclude name="${web-inf.dir}/classes"/>
@@ -116,11 +116,21 @@
 	</target>
 	
 	<target name="executar-tomcat-local" depends="deploy-tomcat-local">
-		<exec executable="/home/carledwin/Documents/alura/ant/SERVER/apache-tomcat-8.5.20/bin/startup.sh"></exec>
+		<exec executable="/home/carledwin/Documents/alura/ant/SERVER/apache-tomcat-8.5.20/bin/startup.sh" />
+	</target>
+	
+	<target name="encerrar-tomcat-local">
+		<exec executable="/home/carledwin/Documents/alura/ant/SERVER/apache-tomcat-8.5.20/bin/shutdown.sh" />
 	</target>
 	
 	<target name="deploy-remoto" depends="empacotar-war">
-		<scp file="${build.dir}/agenda.war" todir="caelum@192.168.0.1:/pastaDeploy" password="senhaSegredo" ></scp>
+		<scp file="${build.dir}/agenda.war" todir="caelum@192.168.0.1:/pastaDeploy" password="senhaSegredo" trust="true" ></scp>
 	</target>
 	
+	<!--
+	<target name="touch-war-no-servidor-remoto" >
+	      <sshexec host="192.168.0.100" username="caelum" password="senhaSecreta" 
+	            command="touch /pastaDeployRemoto/agenda.war" />
+	</target>
+	-->
 </project>
