@@ -1,0 +1,30 @@
+<project name="ant-project" default="empacotar">
+
+	<target name="limpar">
+		<!-- task 1 -->
+		<delete dir="build" />
+		
+		<!-- task 2 -->
+		<mkdir dir="build" />
+	</target>
+
+	<target name="compilar" depends="limpar">
+		<!-- task 3 -->
+		<javac srcdir="src"  destdir="build">
+		<classpath>
+			<fileset dir="lib">
+				<include name="*.jar" />
+			</fileset>
+		</classpath>
+		</javac>
+	</target>
+	
+	
+	
+	<!-- englobando tarefas -->
+	<target name="empacotar" depends="compilar">
+		<!-- task 4 -->
+		<jar destfile="ant-project.jar" basedir="build" />
+	</target>
+	
+</project>
