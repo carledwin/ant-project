@@ -17,5 +17,43 @@
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="compilar-teste" depends="compilar">
+		<javac destdir="build/classes-teste" srcdir="src-teste">
+			<classpath>
+				<!-- adicionando mais um classpath com as classes que foram compiladas no projeto -->
+				<pathelement path="build/classes"/>
+				<fileset dir="lib-teste">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="WebContent/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="executar-teste" depends="compilar-teste">
+		<junit showoutput="true" printsummary="true">
+			<batchtest>
+				<!-- gera um arquivo de teste. -->
+				<formatter type="plain"/>
+				<fileset dir="src-teste">
+						<include name="**/*Test.java"/>
+				</fileset>
+			</batchtest>
+			<classpath>
+				<!-- adicionando mais um classpath com as classes que foram compiladas no projeto -->
+				<pathelement path="build/classes-teste"/>
+				<pathelement path="build/classes"/>
+				<fileset dir="lib-teste">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="WebContent/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</junit>
+	</target>
 
 </project>

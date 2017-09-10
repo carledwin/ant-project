@@ -1,0 +1,11 @@
+echo "export PATH=$PATH:enderecocompletoateapastabin" >> .profile
+
+ant -version
+
+ant -p listar todos os targets disponiveis
+
+ant - ant compila o target padrão
+chamar target padão no diretorio raiz do projeto onde tem o arquivo build.xml
+
+ant limpar  / ant targetName
+executa target específico
