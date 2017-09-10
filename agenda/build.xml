@@ -1,27 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="agenda" default="compilar">
+	
+	<!-- properties -->
+	<!--
+	<property name="build.dir" value="BUILD" />
+	<property name="classes.dir" value="CLASSES" />
+	<property name="classes.teste.dir" value="CLASSES-TESTE" />
+	-->
+	<property file="build.properties" />
 
+	<!-- classpath global -->
+	<path id="classpath-compilacao-build-classe">
+		<fileset dir="WebContent/WEB-INF/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<path id="classpath-compilacao-build-classe-teste">
+		<path refid="classpath-compilacao-build-classe" />
+		<pathelement path="${build.dir}/${classes.dir}"/>
+		<fileset dir="lib-teste">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="classpath-execucao-teste">
+		<path refid="classpath-compilacao-build-classe-teste" />
+		<pathelement path="${build.dir}/${classes.teste.dir}"/>
+	</path>
+	
 	<target name="limpar">
-		<delete dir="build" />
-		<mkdir  dir="build" />
-		<mkdir  dir="build/classes" />
-		<mkdir  dir="build/classes-teste" />
+		<delete dir="${build.dir}" />
+		<mkdir  dir="${build.dir}" />
+		<mkdir  dir="${build.dir}/${classes.dir}" />
+		<mkdir  dir="${build.dir}/${classes.teste.dir}" />
 	</target>
 
 	<target name="compilar" depends="limpar">
-		<javac destdir="build/classes" srcdir="src">
+		<javac destdir="${build.dir}/${classes.dir}" srcdir="src">
+			<!--
 			<classpath>
 				<fileset dir="WebContent/WEB-INF/lib">
 					<include name="*.jar" />
 				</fileset>
 			</classpath>
+			-->
+			<classpath refid="classpath-compilacao-build-classe" />
 		</javac>
 	</target>
 	
 	<target name="compilar-teste" depends="compilar">
-		<javac destdir="build/classes-teste" srcdir="src-teste">
+		<javac destdir="${build.dir}/${classes.teste.dir}" srcdir="src-teste">
+			<!--
 			<classpath>
-				<!-- adicionando mais um classpath com as classes que foram compiladas no projeto -->
+				< ! - - adicionando mais um classpath com as classes que foram compiladas no projeto - - >
 				<pathelement path="build/classes"/>
 				<fileset dir="lib-teste">
 					<include name="*.jar"/>
@@ -30,6 +61,8 @@
 					<include name="*.jar" />
 				</fileset>
 			</classpath>
+			-->
+			<classpath refid="classpath-compilacao-build-classe-teste" />
 		</javac>
 	</target>
 	
@@ -42,8 +75,9 @@
 						<include name="**/*Test.java"/>
 				</fileset>
 			</batchtest>
+			<!-- 
 			<classpath>
-				<!-- adicionando mais um classpath com as classes que foram compiladas no projeto -->
+				< ! - - adicionando mais um classpath com as classes que foram compiladas no projeto - - >
 				<pathelement path="build/classes-teste"/>
 				<pathelement path="build/classes"/>
 				<fileset dir="lib-teste">
@@ -53,6 +87,8 @@
 					<include name="*.jar" />
 				</fileset>
 			</classpath>
+			-->
+			<classpath refid="classpath-execucao-teste" />
 		</junit>
 	</target>
 
