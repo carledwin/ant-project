@@ -1,5 +1,31 @@
 <project name="ant-project" default="empacotar">
 
+	<!-- Declcarando o classpath para utilizar a task importada, afim de evitar ter que executar o comando 
+	 *** ant -lib lib-tarefa/tarefa-pronta.jar msg ***
+	 executando somente ant msg -->
+	
+	<path id="lib.tarefa">
+		<fileset dir="lib-tarefa">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<!-- Definindo uma task, importando a task contida no jar e adicionada no buildpath. -->
+	<taskdef name="mensagem" classname="com.carledwinj.tarefa.pronta.task.MensagemTask" classpathref="lib.tarefa" />
+	
+	<!--
+	<target name="msg">
+		<mensagem />
+	</target>
+	-->
+	
+	<!-- alterando o valor default da mensagem e utilizando parametro. -->
+	<target name="msg">
+		<mensagem prioridade="3">
+			Executed MensagemTask by Ant with text of build.xml file!
+		</mensagem>
+	</target>
+	
 	<target name="limpar">
 		<!-- task 1 -->
 		<delete dir="build" />

@@ -1,0 +1,5 @@
+Executando o ant via terminal
+
+Executando uma task declarando explicitamente o jar dependente
+
+$ ant -lib lib-tarefa/tarefa-pronta.jar msg
